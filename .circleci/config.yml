@@ -1,0 +1,44 @@
+defaults: &defaults
+  working_directory: ~/webpack-css-contenthash-different
+
+defaultsGood: &defaultsGood
+  <<: *defaults
+  steps:
+    - checkout
+    - yarn install
+    - yarn build:good
+
+defaultsBad: &defaultsBad
+  <<: *defaults
+  steps:
+    - checkout
+    - yarn install
+    - yarn build:bad
+
+version: 2
+jobs:
+  build-good-macos:
+    macos:
+      xcode: "9.3.0"
+    <<: *defaultsGood
+  build-good-linux:
+    docker:
+      - image: node
+    <<: *defaultsGood
+  build-bad-macos:
+    macos:
+      xcode: "9.3.0"
+    <<: *defaultsBad
+  build-bad-linux:
+    docker:
+      - image: node
+    <<: *defaultsBad
+
+workflows:
+  version: 2
+  build-good-and-bad:
+    jobs:
+      - build-good-macos
+      - build-bad-macos
+      - build-good-linux
+      - build-bad-linux
