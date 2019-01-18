@@ -5,15 +5,15 @@ defaultsGood: &defaultsGood
   <<: *defaults
   steps:
     - checkout
-    - yarn install
-    - yarn build:good
+    - run: yarn install
+    - run: yarn build:good
 
 defaultsBad: &defaultsBad
   <<: *defaults
   steps:
     - checkout
-    - yarn install
-    - yarn build:bad
+    - run: yarn install
+    - run: yarn build:bad
 
 version: 2
 jobs:
